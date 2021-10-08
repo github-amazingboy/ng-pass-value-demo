@@ -1,0 +1,8 @@
+<h1>{{userName}} 的博客</h1>
+<ng-content></ng-content>
+<ng-content select="xiaoan"></ng-content>
+<hr/>
+<app-child1  (changeEvent)="modifyUserName($event)"></app-child1>
+<app-child2 #c2 [uName]="userName"></app-child2>
+
+<button (click)="getByID()">直接根据ID进行修改，不会映射到父组件</button>
