@@ -5,16 +5,16 @@
 - 父组件中
 
 ```html
- <app-child2 [uName]="userName"></app-child2>
+<app-child2 [uName]="userName"></app-child2>
 ```
 
 - 子组件中
 ```javascript
 export class Child2Component implements OnInit {
-	@Input()
-	uName:string=""
-	constructor() { }
-	ngOnInit(): void {}
+    @Input()
+    uName:string=""
+    constructor() { }
+    ngOnInit(): void {}
 }
 ```
 
@@ -24,16 +24,16 @@ export class Child2Component implements OnInit {
 
 ```typescript
 export class Child1Component implements OnInit {
-  	  userInput:string = ""
-  	  @Output()
-  	  changeEvent = new EventEmitter();  //定义一个对外的Event
-  	  constructor() { }
-  	  ngOnInit(): void {
-  	  }
-  	  doClick(){
-  	    console.log(this.userInput)
-  	    this.changeEvent.emit(this.userInput)
-  	  }
+    userInput:string = ""
+    @Output()
+    changeEvent = new EventEmitter();  //定义一个对外的Event
+    constructor() { }
+    ngOnInit(): void {
+    }
+    doClick(){
+      console.log(this.userInput)
+      this.changeEvent.emit(this.userInput)
+    }
 }
 ```
 
@@ -60,12 +60,12 @@ modifyUserName($event:any): void {
 ```
 
 ```typescript
-  @ViewChild('c2',{static:true})
-  ccc2!:Child2Component
-  getByID(){
+@ViewChild('c2',{static:true})
+ccc2!:Child2Component
+getByID(){
     console.log(this.ccc2.uName)
     this.ccc2.uName = "张三"
-  }
+}
 ```
 
 ## 兄弟组件通信
@@ -88,14 +88,14 @@ Brother1
 <button (click)="b1Click()">点击后，要修改brother2的值</button>
 
 export class Brother1Component implements OnInit {
-  name:string = ""
-  constructor(private bpvs:BrotherPassValueService) { }
-  ngOnInit(): void {
-  }
-  b1Click(){
-    console.log(this.name);
-    this.bpvs.emit(this.name)
-  }
+    name:string = ""
+    constructor(private bpvs:BrotherPassValueService) { }
+    ngOnInit(): void {
+    }
+    b1Click(){
+      console.log(this.name);
+      this.bpvs.emit(this.name)
+    }
 }
 ```
 
@@ -106,20 +106,20 @@ Brother2
 <div>从brother1 传过来的是 {{psv}}</div>
 
 export class Brother2Component implements OnInit , OnDestroy {
-  psv:string = ""
-  private subscription:Subscription = new Subscription();
-  constructor(private bpvs:BrotherPassValueService) { }
-  ngOnInit(): void {
-    this.subscription = this.bpvs.listener.subscribe(value=>{
-      console.log("传的值是",value);
-      this.psv = value;
-    })
-  }
-  ngOnDestroy(): void {
-    if(this.bpvs){
-      this.subscription.unsubscribe()
+    psv:string = ""
+    private subscription:Subscription = new Subscription();
+    constructor(private bpvs:BrotherPassValueService) { }
+    ngOnInit(): void {
+      this.subscription = this.bpvs.listener.subscribe(value=>{
+        console.log("传的值是",value);
+        this.psv = value;
+      })
     }
-  }
+    ngOnDestroy(): void {
+      if(this.bpvs){
+        this.subscription.unsubscribe()
+      }
+    }
 }
 ```
 
@@ -127,12 +127,12 @@ export class Brother2Component implements OnInit , OnDestroy {
 BrotherPassValueService
 
 export class BrotherPassValueService {
-  private nameSubject = new Subject<string>();
-  constructor() { }
-  listener = this.nameSubject.asObservable()
-  emit(value: string){
-    this.nameSubject.next(value);
-  }
+    private nameSubject = new Subject<string>();
+    constructor() { }
+    listener = this.nameSubject.asObservable()
+    emit(value: string){
+      this.nameSubject.next(value);
+    }
 }
 ```
 
